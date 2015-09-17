@@ -26,7 +26,7 @@ namespace calculator
  */
         private decimal total = 0;
         private decimal curVal = 0;
-        private Operator currentOperator;
+        private Operator curOperator;
 
 
         public Form1()
@@ -82,7 +82,6 @@ namespace calculator
             ShowInput(btn8.Text);
         }
 
-
         private void btn9_Click(object sender, EventArgs e)
         {
             ShowInput(btn9.Text);
@@ -93,12 +92,17 @@ namespace calculator
             ShowInput(btn0.Text);
         }
 
-
         private void btnDecimal_Click(object sender, EventArgs e)
         {
             txtDisplay.Text = txtDisplay.Text + '.';
         }
 
+        private void btnC_Click(object sender, EventArgs e)
+        {
+            curOperator = Operator.None;
+            txtDisplay.Clear();
+            total = 0;
+        }
 
 // Code for handling the display of numbers.
         private void ShowInput(String n)
@@ -132,6 +136,8 @@ namespace calculator
         private void btnSqrt_Click(object sender, EventArgs e)
         {
             applyOperator(Operator.Sqrt);
+            evaluate();
+            txtDisplay.Text = Convert.ToString(total);
         }
 
         private void btnPercent_Click(object sender, EventArgs e)
@@ -155,7 +161,7 @@ namespace calculator
         //switch statement to apply the correct operrator
         private void evaluate()
         {
-            switch (currentOperator)
+            switch (curOperator)
             {
                 case Operator.Add:
                     total += curVal;
@@ -183,12 +189,12 @@ namespace calculator
                     break;
             }
             curVal = 0;
-            currentOperator = Operator.None;
+            curOperator = Operator.None;
         }
 
         private void applyOperator(Operator op)
         {
-            if (currentOperator != Operator.None)
+            if (curOperator != Operator.None)
             {
                 evaluate();
             }
@@ -197,7 +203,7 @@ namespace calculator
                 total = decimal.Parse(txtDisplay.Text);
             }
             txtDisplay.Clear();
-            currentOperator = op;
+            curOperator = op;
         }
 
         private void ShowIput(String n)
@@ -205,5 +211,7 @@ namespace calculator
             txtDisplay.Text = txtDisplay.Text + n;
             curVal = decimal.Parse(txtDisplay.Text);
         }
+
+        
     }
 }
